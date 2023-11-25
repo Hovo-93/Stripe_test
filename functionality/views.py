@@ -4,7 +4,9 @@ from .models import Item
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view, permission_classes
 from stripetest import settings
+from django.shortcuts import redirect
 import stripe
+from rest_framework.response import Response
 
 
 
@@ -14,13 +16,26 @@ class ItemViewSet(viewsets.ModelViewSet):
 
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def buy(request, pk):
     item = Item.objects.get(id=pk)
     stripe.api_key = settings.STRIPE_API_KEY
-    pay=stripe.PaymentIntent.create(
-        amount=item.price*100,
-        currency="eur",
+    session = stripe.checkout.Session.create(
+        line_items=[{
+            'price_data': {
+                'currency': 'usd',
+                'product_data': {
+                    'name': item.name,
+                },
+                'unit_amount': item.price,
+            },
+            'quantity': 1,
+        }],
+        mode='payment',
+        success_url='http://google.com',
+        cancel_url='http://facebook.com',
     )
+    return Response(session.url)
+    # return redirect(session.url, code=303)
 
 # Create your views here.
