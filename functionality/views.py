@@ -35,7 +35,7 @@ def buy(request, pk):
         success_url='http://google.com',
         cancel_url='http://facebook.com',
     )
-    return Response(session.url)
+    return Response({'payment_link': session.url})
     # return redirect(session.url, code=303)
 
 # Create your views here.
