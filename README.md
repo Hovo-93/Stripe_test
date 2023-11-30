@@ -58,3 +58,16 @@ STRIPE_API_KEY=sk_test_51OGlf1EQj5G4dxj6u8HhkKPVM85T0kdNaOvGhL8UTUif9UIyzdFd7LlY
 ```python
     pip install -r requirements.txt
 ```
+#### Шаг 4.Создаем суперюзера:
+```json
+    python manage.py createsuperuser
+```
+#### Шаг 5.Добавляем Item :
+```json
+    http://127.0.0.1:8000/admin/
+```
+#### Шаг 6.Запускаем сервер локально
+```python
+    python manage.py runserver
+```
+
